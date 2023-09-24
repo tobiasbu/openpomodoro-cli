@@ -51,7 +51,7 @@ func startCmd(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	if err := hook.Run(client, "start"); err != nil {
+	if err := hook.Run(client, "start", hook.ArgsFromPomodoro(p)); err != nil {
 		return err
 	}
 

@@ -25,10 +25,18 @@ func finishCmd(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	d := time.Now().Sub(p.StartTime)
-	fmt.Println(format.DurationAsTime(d))
+  now := time.Now()
+	d := now.Sub(p.StartTime)
+  runDuration := format.DurationAsTime(d)
+	fmt.Println(runDuration)
 
-	if err := hook.Run(client, "stop"); err != nil {
+  hookArgs := hook.ArgsFromPomodoro(p)
+  hookArgs = append(hookArgs,
+    fmt.Sprintf("--end-time='%s'", now.String()),
+    fmt.Sprintf("--run-duration='%s'", runDuration),
+  )
+
+	if err := hook.Run(client, "finish", hookArgs); err != nil {
 		return err
 	}
 

@@ -16,7 +16,9 @@ func init() {
 }
 
 func cancelCmd(cmd *cobra.Command, args []string) error {
-	if err := hook.Run(client, "stop"); err != nil {
+  p, _ := client.Pomodoro()
+
+	if err := hook.Run(client, "cancel", hook.ArgsFromPomodoro(p)); err != nil {
 		return err
 	}
 

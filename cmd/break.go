@@ -32,7 +32,9 @@ func breakCmd(cmd *cobra.Command, args []string) error {
 		}
 	}
 
-	if err := hook.Run(client, "break"); err != nil {
+  hookArgs := []string{fmt.Sprint("--duration=", d.String())}
+
+	if err := hook.Run(client, "break", args); err != nil {
 		return err
 	}
 
@@ -40,7 +42,8 @@ func breakCmd(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	return hook.Run(client, "stop")
+
+	return hook.Run(client, "break:done", hookArgs)
 }
 
 func wait(d time.Duration) error {
